@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "./Pages/shared/Header";
+import Header from "../Pages/shared/Header";
 import { Outlet } from "react-router-dom";
-import Footer from "./Pages/shared/Footer";
+import Footer from "../Pages/shared/Footer";
 
 function Root() {
   return (

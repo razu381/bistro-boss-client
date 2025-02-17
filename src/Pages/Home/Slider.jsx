@@ -4,7 +4,7 @@ import { Carousel } from "react-responsive-carousel";
 
 function Slider() {
   return (
-    <div className="-my-20 mb-20 z-0 relative ">
+    <div className="-my-24 mb-20 z-0 relative ">
       <Carousel showIndicators={true}>
         <div>
           <img src="/assets/home/01.jpg" />

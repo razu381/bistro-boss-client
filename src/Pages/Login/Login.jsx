@@ -1,23 +1,35 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../../Auth/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import GoogleLogin from "../shared/GoogleLogin";
 
 function Login() {
-  let captchaRef = useRef(null);
   let [isDisabled, setDisabled] = useState(true);
+  let { signIn } = useContext(AuthContext);
+  let from = useLocation();
+  let navigate = useNavigate();
 
   function handleLogin(e) {
     e.preventDefault();
     let email = e.target.email.value;
     let pass = e.target.pass.value;
-    console.log(email, pass);
+
+    signIn(email, pass)
+      .then((data) => {
+        Swal.fire("User logged in successfully");
+        navigate(from.state?.from || "/");
+      })
+      .catch((err) => Swal.fire(err.message));
   }
 
-  function handleCaptcha() {
-    let captchaData = captchaRef.current.value;
+  function handleCaptcha(e) {
+    let captchaData = e.target.value;
     console.log(captchaData);
     if (validateCaptcha(captchaData) == true) {
       setDisabled(false);
@@ -77,26 +89,20 @@ function Login() {
               </div>
 
               <input
-                ref={captchaRef}
+                onBlur={handleCaptcha}
                 type="text"
                 name="captcha"
                 placeholder="captcha"
                 className="input input-bordered"
                 required
               />
-              <button
-                type="button"
-                onClick={handleCaptcha}
-                className="mt-3 btn btn-xs border-black text-black"
-              >
-                Validate
-              </button>
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary" disabled={isDisabled}>
                 Login
               </button>
             </div>
+            <GoogleLogin title="Log in" />
           </form>
         </div>
       </div>

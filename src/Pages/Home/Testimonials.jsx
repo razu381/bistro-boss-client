@@ -21,8 +21,6 @@ function Testimonials() {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log("this is ", reviews);
-
   return (
     <div className="mb-10">
       <SharedTitle
